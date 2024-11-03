@@ -32,11 +32,13 @@ block contenido
                             span(class="text-gray-800 block text-lg")= propiedad.estacionamiento
                         
                         p(class="text-gray-600 font-bold text-xs") Precio   
-                            span(class="text-gray-800 block text-lg")= propiedad.precio.nombre
+                            span(class="text-gray-800 block text-lg")= propiedad.precio
 
                         p(class="text-gray-600 font-bold text-xs") Visitas  
                             span(class="text-gray-800 block text-lg")= propiedad.visitas
 
+                        p(class="text-gray-600 font-bold text-xs") Vendedor  
+                            span(class="text-gray-800 block text-lg")= propiedad.usuario.nombre
 
             aside(class="md:w-1/3")
                 h3(class="text-center py-10 leading-6 text-2xl font-bold text-gray-900") Ubicación

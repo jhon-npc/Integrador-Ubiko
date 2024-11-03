@@ -36,12 +36,9 @@ block contenido
                             each categoria in categorias
                                 option(value=categoria.id selected= datos.categoriaId ? datos.categoriaId == categoria.id ? true : false : null )= categoria.nombre
 
-                    div(class="md:w-1/2")
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="precio") precio
-                        select#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="precio")
-                            option(value="") - Seleccione -
-                            each precio in precios 
-                                option(value=precio.id selected= datos.precioId ? datos.precioId == precio.id ? true : false : null )= precio.nombre
+                    div 
+                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="precio") Precio
+                        textarea#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Precio"  name="precio")= datos.precio ? datos.precio : ''
 
                 div(class=" md:flex md:gap-4 space-y-8 md:space-y-0")
                     div(class="md:w-1/3")
