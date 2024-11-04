@@ -36,16 +36,9 @@ block contenido
                             each categoria in categorias
                                 option(value=categoria.id selected= datos.categoria ? datos.categoria == categoria.id ? true : false : null )= categoria.nombre
 
-                    //div(class="md:w-1/2")
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="precio") precio
-                        select#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="precio")
-                            option(value="") - Seleccione -
-                            each precio in precios 
-                                option(value=precio.id selected= datos.precio ? datos.precio == precio.id ? true : false : null )= precio.nombre
-
                     div(class="md:w-1/2") 
-                    label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="precio") precio
-                    textarea#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Indique el precio"  name="precio")= datos.precio ? datos.precio : ''
+                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="precio") precio
+                        textarea#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Indique el precio"  name="precio")= datos.precio ? datos.precio : ''
 
 
                 div(class=" md:flex md:gap-4 space-y-8 md:space-y-0")
@@ -73,11 +66,11 @@ block contenido
                                     option( value=n selected= datos.wc ? datos.wc == n ? true : false : null) #{n++}
 
                 div(class=" md:flex md:gap-4 space-y-8 md:space-y-0")
-                    label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="ciudad") Ciudad
-                    select#ciudad.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="ciudad")
+                    label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="departamento") departamento
+                    select#departamento.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="departamento")
                         option(value="") - Seleccione -
-                        each ciudad in ciudades
-                            option(value=ciudad.id selected= datos.ciudad ? datos.ciudad == ciudad.id ? true : false : null )= ciudad.nombre
+                        each departamento in departamentos
+                            option(value=departamento.id selected= datos.departamento ? datos.departamento == departamento.id ? true : false : null )= departamento.nombre
                 
                 div.border-gray-200.border-t.py-5
                     h3.text-lg.leading-6.font-medium.text-gray-900.font-bold Ubicación

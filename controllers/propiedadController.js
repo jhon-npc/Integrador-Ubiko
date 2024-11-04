@@ -7,7 +7,7 @@ import {
   Usuario,
 } from "../models/index.js";
 import { esVendedor, formatearFecha } from "../helpers/index.js";
-import Ciudad from "../models/Ciudad.js";
+import Departamento from "../models/Departamento.js";
 
 const admin = async (req, res) => {
   // Leer QueryString
@@ -63,9 +63,9 @@ const admin = async (req, res) => {
 //Formulario sobre crear una propiedad
 const crear = async (req, res) => {
   //Consulta el Modelo de Precio y Categoria
-  const [categorias, ciudades] = await Promise.all([
+  const [categorias, departamentos] = await Promise.all([
     Categoria.findAll(),
-    Ciudad.findAll(),
+    Departamento.findAll(),
     //Precio.findAll(),
   ]);
 
@@ -74,7 +74,7 @@ const crear = async (req, res) => {
     barra: true,
     csrfToken: req.csrfToken(),
     categorias,
-    ciudades,
+    departamentos,
     //precios,
     datos: {},
   });
@@ -86,9 +86,9 @@ const guardar = async (req, res) => {
 
   if (!resultado.isEmpty()) {
     //Consultar el modelo de precios y categorias
-    const [categorias, ciudades] = await Promise.all([
+    const [categorias, departamentos] = await Promise.all([
       Categoria.findAll(),
-      Ciudad.findAll(),
+      Departamento.findAll(),
       //Precio.findAll(),
     ]);
 
@@ -97,7 +97,7 @@ const guardar = async (req, res) => {
       barra: true,
       csrfToken: req.csrfToken(),
       categorias,
-      ciudades,
+      departamentos,
       //precios,
       errores: resultado.array(),
       datos: req.body,
@@ -116,7 +116,7 @@ const guardar = async (req, res) => {
     lng,
     precio,
     categoria,
-    ciudad,
+    departamento,
   } = req.body;
 
   const { id: usuarioId } = req.usuario;
@@ -134,7 +134,7 @@ const guardar = async (req, res) => {
       precio,
       categoriaId: categoria,
       usuarioId,
-      ciudadId: ciudad,
+      departamentoId: departamento,
       imagen: "",
     });
 
@@ -220,9 +220,9 @@ const editar = async (req, res) => {
     return res.redirect("/mis-propiedades");
   }
   //Consulta el Modelo de Precio y Categoria
-  const [categorias, ciudades] = await Promise.all([
+  const [categorias, departamentos] = await Promise.all([
     Categoria.findAll(),
-    Ciudad.findAll(),
+    Departamento.findAll(),
   ]);
 
   res.render("propiedades/editar", {
@@ -230,7 +230,7 @@ const editar = async (req, res) => {
     barra: true,
     csrfToken: req.csrfToken(),
     categorias,
-    ciudades,
+    departamentos,
     usuario: req.usuario,
     datos: propiedad,
   });
@@ -242,16 +242,16 @@ const guardarCambios = async (req, res) => {
 
   if (!resultado.isEmpty()) {
     //Consultar el modelo de precios y categorias
-    const [categorias, ciudades] = await Promise.all([
+    const [categorias, departamentos] = await Promise.all([
       Categoria.findAll(),
-      Ciudad.findAll(),
+      Departamento.findAll(),
     ]);
     return res.render("propiedades/editar", {
       pagina: ` Editar Propiedad `,
       barra: true,
       csrfToken: req.csrfToken(),
       categorias,
-      ciudades,
+      departamentos,
       errores: resultado.array(),
       datos: req.body,
     });
@@ -283,7 +283,7 @@ const guardarCambios = async (req, res) => {
       lng,
       precio,
       categoria: categoriaId,
-      ciudad: ciudadId,
+      departamento: departamentoId,
     } = req.body;
 
     propiedad.set({
@@ -297,7 +297,7 @@ const guardarCambios = async (req, res) => {
       lng,
       precio,
       categoriaId,
-      ciudadId,
+      departamentoId,
     });
 
     await propiedad.save();
