@@ -123,3 +123,40 @@ function mostrarPrecio() {
   const precioSeleccionado = select.options[select.selectedIndex].getAttribute('data-precio');
   precioInput.value = precioSeleccionado ? `${(precioSeleccionado).toLocaleString()}` : '';
 }
+
+
+//-----------------------------------------------------
+function generarPDFCronograma() {
+  const { jsPDF } = window.jspdf;
+  const tabla = document.getElementById('tablaCronograma');
+
+  html2canvas(tabla).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('cronograma.pdf');
+  });
+}
+
+function imprimirCronograma() {
+  const tabla = document.getElementById('tablaCronograma');
+  const contenido = tabla.outerHTML;
+
+  const ventanaImpresion = window.open('', '_blank', 'height=600,width=800');
+  ventanaImpresion.document.open();
+  ventanaImpresion.document.write('<html><head><title>Cronograma de Pagos</title></head><body>');
+  ventanaImpresion.document.write('<h1>Cronograma de Pagos</h1>');
+  ventanaImpresion.document.write(contenido);
+  ventanaImpresion.document.write('</body></html>');
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+  ventanaImpresion.close();
+}
+
+
+
