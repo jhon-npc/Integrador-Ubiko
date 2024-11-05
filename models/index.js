@@ -13,13 +13,13 @@ import Ciudad from './Ciudad.js'
 //Precio.hasOne(Propiedad) //Propiedad tiene un precio
 //Propiedad.belongsTo(Precio, {foreignKey: 'precioId'})
 Propiedad.belongsTo(Categoria, {foreignKey: 'categoriaId'})
-Propiedad.belongsTo(Departamento, {foreignKey: 'departamentoId'})
+Propiedad.belongsTo(Ciudad, {foreignKey: 'ciudadId'})
 Propiedad.belongsTo(Usuario, {foreignKey: 'usuarioId'})
 Propiedad.hasMany(Mensaje, {foreignKey: 'propiedadId'})
 Propiedad.hasMany(Credito, {foreignKey: 'propiedadId'})
 
-Departamento.belongsTo(Provincia, {foreignKey: 'provinciaId'})
-Provincia.belongsTo(Ciudad, {foreignKey: 'ciudadId'})
+Ciudad.belongsTo(Provincia, {foreignKey: 'provinciaId'})
+Provincia.belongsTo(Departamento, {foreignKey: 'departamentoId'})
 
 Mensaje.belongsTo(Propiedad, {foreignKey: 'propiedadId'})
 Mensaje.belongsTo(Usuario, {foreignKey: 'usuarioId'})
@@ -36,5 +36,7 @@ export {
     Usuario,
     Mensaje,
     Departamento,
-    Documento
+    Documento,
+    Ciudad,
+    Provincia,
 }
