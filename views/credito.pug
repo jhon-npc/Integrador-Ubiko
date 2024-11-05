@@ -34,6 +34,9 @@ block contenido
         input#plazoAnios(type="number" min="1" required name="plazoAnios" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline")
       div(class="flex items-center justify-center")
         input(type="submit" value="Guardar" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer")
+      div(class="flex items-center justify-center")
+        input(type="button" value="Imprimir" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer mr-4" onclick="imprimirCronograma()")
+      
 
     //- Área de resultados del servidor
     if typeof cuotaInicial !== 'undefined' && typeof montoCapital !== 'undefined' && typeof TEM !== 'undefined' && typeof pagoMensual !== 'undefined'
