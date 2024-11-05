@@ -3,8 +3,10 @@ import Categoria from './Categoria.js'
 import Usuario from './Usuario.js'
 import Mensaje from './Mensaje.js'
 import Credito from './Credito.js'
-import Ciudad from './Ciudad.js'
 import Documento from './Documento.js'
+import Departamento from './Departamento.js'
+import Provincia from './Provincia.js'
+import Ciudad from './Ciudad.js'
 
 
 
@@ -16,6 +18,8 @@ Propiedad.belongsTo(Usuario, {foreignKey: 'usuarioId'})
 Propiedad.hasMany(Mensaje, {foreignKey: 'propiedadId'})
 Propiedad.hasMany(Credito, {foreignKey: 'propiedadId'})
 
+Ciudad.belongsTo(Provincia, {foreignKey: 'provinciaId'})
+Provincia.belongsTo(Departamento, {foreignKey: 'departamentoId'})
 
 Mensaje.belongsTo(Propiedad, {foreignKey: 'propiedadId'})
 Mensaje.belongsTo(Usuario, {foreignKey: 'usuarioId'})
@@ -31,6 +35,8 @@ export {
     Categoria,
     Usuario,
     Mensaje,
+    Departamento,
+    Documento,
     Ciudad,
-    Documento
+    Provincia,
 }

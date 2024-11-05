@@ -7,6 +7,8 @@ import {
   Usuario,
 } from "../models/index.js";
 import { esVendedor, formatearFecha } from "../helpers/index.js";
+import Departamento from "../models/Departamento.js";
+import Provincia from "../models/Provincia.js";
 import Ciudad from "../models/Ciudad.js";
 
 const admin = async (req, res) => {
@@ -63,8 +65,10 @@ const admin = async (req, res) => {
 //Formulario sobre crear una propiedad
 const crear = async (req, res) => {
   //Consulta el Modelo de Precio y Categoria
-  const [categorias, ciudades] = await Promise.all([
+  const [categorias, departamentos,provincias,ciudades] = await Promise.all([
     Categoria.findAll(),
+    Departamento.findAll(),
+    Provincia.findAll(),
     Ciudad.findAll(),
     //Precio.findAll(),
   ]);
@@ -74,6 +78,8 @@ const crear = async (req, res) => {
     barra: true,
     csrfToken: req.csrfToken(),
     categorias,
+    departamentos,
+    provincias,
     ciudades,
     //precios,
     datos: {},
