@@ -20,6 +20,7 @@ block contenido
                     div 
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="password") password
                         input#password.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="*******" type="password" name="password")
+                        .g-recaptcha(data-sitekey="6LcbHHIqAAAAAO_keLm4HZlF9QfrIZ_arJVbMQLb")
                     input(class="w-full bg-indigo-600 mt-5 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Iniciar Sesión" )
                     div.flex.items-center.justify-between
                         a(href="/auth/registro").text-gray-400.text-xs.mt-2 ¿Aún no tienes una cuenta? Crear Cuenta
