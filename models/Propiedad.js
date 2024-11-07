@@ -7,7 +7,7 @@ const Propiedad = db.define('propiedades', {
         allowNull: false
     },
     descripcion: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(100),
         allowNull: false,   
     },
     habitaciones :{

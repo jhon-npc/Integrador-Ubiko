@@ -1,21 +1,43 @@
+document.getElementById('departamento').addEventListener('change', function () {
+    const departamentoId = this.value;
+    const provinciaSelect = document.getElementById('provincia');
+    const ciudadSelect = document.getElementById('ciudad');
 
-const departamentoSelect = document.getElementById('departamento');
-const provinciaSelect = document.getElementById('provincia');
-
-departamentoSelect.addEventListener('change', function() {
-    const selectedDepartamentoId = parseInt(this.value);
-    
-    // Limpiar el selector de provincias
+    // Limpiar opciones de provincias y ciudades
     provinciaSelect.innerHTML = '<option value="">- Seleccione -</option>';
+    ciudadSelect.innerHTML = '<option value="">- Seleccione -</option>';
 
-    // Filtrar provincias por departamento seleccionado
-    const filteredProvincias = provincias.filter(provincia => provincia.departamentoId === selectedDepartamentoId);
+    // Obtener provincias del departamento seleccionado
+    fetch(`/provincias/${departamentoId}`)
+        .then(response => response.json())
+        .then(provincias => {
+            provincias.forEach(provincia => {
+                const option = document.createElement('option');
+                option.value = provincia.id;
+                option.textContent = provincia.nombre;
+                provinciaSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching provincias:', error));
+});
 
-    // Rellenar el selector de provincias con las provincias filtradas
-    filteredProvincias.forEach(provincia => {
-        const option = document.createElement('option');
-        option.value = provincia.id;
-        option.textContent = provincia.nombre;
-        provinciaSelect.appendChild(option);
-    });
+document.getElementById('provincia').addEventListener('change', function () {
+    const provinciaId = this.value;
+    const ciudadSelect = document.getElementById('ciudad');
+
+    // Limpiar opciones de ciudades
+    ciudadSelect.innerHTML = '<option value="">- Seleccione -</option>';
+
+    // Obtener ciudades de la provincia seleccionada
+    fetch(`/ciudades/${provinciaId}`)
+        .then(response => response.json())
+        .then(ciudades => {
+            ciudades.forEach(ciudad => {
+                const option = document.createElement('option');
+                option.value = ciudad.id;
+                option.textContent = ciudad.nombre;
+                ciudadSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching ciudades:', error));
 });

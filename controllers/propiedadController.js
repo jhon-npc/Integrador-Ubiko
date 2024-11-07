@@ -197,7 +197,7 @@ const almacenarImagen = async (req, res, next) => {
 
     //almacenar la imagen y publicar la propiedad
     propiedad.imagen = req.file.filename;
-    propiedad.publicado = 1;
+    propiedad.publicado = true;
 
     await propiedad.save();
 
@@ -467,6 +467,7 @@ const verMensajes = async (req, res) => {
     formatearFecha,
   });
 };
+
 
 export {
   admin,
