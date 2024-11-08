@@ -163,8 +163,8 @@ const registrar = async (req, res) => {
     .withMessage("Solo numeros")
     .run(req);
   await check("telefono")
-    .isLength({ min: 9, max: 9 })
-    .withMessage("El telefono debe tener 9 caracteres")
+    .isLength({ min: 11, max: 11 })
+    .withMessage("El telefono debe tener 11 caracteres")
     .run(req);
 
   await check("fechaNacimiento")

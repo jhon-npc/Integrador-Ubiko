@@ -18,11 +18,20 @@ block contenido
                         p(class="font-bold text-gray-800") Email: 
                             span(class="font-normal")= mensaje.usuario.email
 
+                        p(class="font-bold text-gray-800") Telefono: 
+                            span(class="font-normal")= mensaje.usuario.telefono   
+
                         p(class="font-bold text-gray-800") Mensaje: 
                             span(class="font-normal")= mensaje.mensaje
 
                         p(class="font-bold text-gray-800") Enviado: 
                             span(class="font-normal")=formatearFecha(mensaje.createdAt) 
+                            
+
+                        // Botón para redirigir a WhatsApp
+                        a(href=`https://wa.me/${mensaje.usuario.telefono.replace(/\D/g, '')}?text=Hola%20${mensaje.usuario.nombre}%2C%20solicitaste%20informacion%20de%20la%20propiedad` 
+                           target="blank" class="inline-block mt-4 py-2 px-6 bg-green-500 hover:bg-green-600 text-white font-bold rounded-md text-center") Contactar por WhatsApp
+
 
         else
             p(class="text-center text-gray-600 p-5") No hay mensajes 
