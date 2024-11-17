@@ -1,4 +1,6 @@
+
 extends ../layout/index
+
 
 block contenido
     .py-0 
@@ -19,14 +21,20 @@ block contenido
                         input#email.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="you@example.com" type="email" name="email")
                     div 
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="password") password
-                        input#password.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="*******" type="password" name="password")
-                        .g-recaptcha(data-sitekey="6LcbHHIqAAAAAO_keLm4HZlF9QfrIZ_arJVbMQLb")
+                        .relative
+                            input#password.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="*******" type="password" name="password")
+                    <br>
+                    .g-recaptcha(data-sitekey="6LcbHHIqAAAAAO_keLm4HZlF9QfrIZ_arJVbMQLb")
+                    
                     input(class="w-full bg-indigo-600 mt-5 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Iniciar Sesión" )
+                    
                     div.flex.items-center.justify-between
                         a(href="/auth/registro").text-gray-400.text-xs.mt-2 ¿Aún no tienes una cuenta? Crear Cuenta
                         a(href="/auth/restaurar-password").text-gray-400.text-xs.mt-2 Olvide mi password
                     
-                                   
+    block scripts
+   
+
 block pie 
     div 
         h2(class="text-center text-sm text-gray-400 py-2") &copy; TODOS LOS DERECHOS RESERVADOS #{new Date().getFullYear()} | by Ubiko  &hearts;

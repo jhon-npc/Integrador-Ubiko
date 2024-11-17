@@ -49,7 +49,6 @@ router.post('/propiedades/editar/:id', protegerRuta,
     body('habitaciones').isNumeric().withMessage('Selecciona la cantidad de habitaciones'),
     body('estacionamiento').isNumeric().withMessage('Selecciona la cantidad de estacionamientos'),
     body('wc').isNumeric().withMessage('Selecciona la cantidad de baños'),
-    body('ciudad').isNumeric().withMessage('Selecciona la ciudad del inmueble'),
     body('lat').notEmpty().withMessage('Ubica la propiedad en el mapa'),
     guardarCambios )
 
