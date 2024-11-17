@@ -1,12 +1,12 @@
 import { DataTypes } from "sequelize";
 import db from "../config/db.js";
 
-const Precio = db.define('precios', {
+const Provincia = db.define('provincias', {
     nombre: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(200),
         allowNull: false
-    }
+    },
 
 })
 
-export default Precio;
+export default Provincia

@@ -2,8 +2,7 @@ extends ../layout/index
 
 block contenido
     .py-0 
-        h1.text-4xl.my-5.font-extrabold.text-center Bienes
-            span.font-normal Raices 
+        h1.text-4xl.my-5.font-extrabold.text-center Ubiko
         h2.text-center.text-2xl.font-extrabold.text-indigo-600= pagina
 
         if errores
@@ -23,7 +22,7 @@ block contenido
                         input#nombre.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Surname" type="text" name="apellido" value= usuario ?usuario.apellido : '')
                     div 
                         label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="telefono") Telefono
-                        input#nombre.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Phone" type="text" name="telefono" value= usuario ?usuario.telefono : '')
+                        input#nombre.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Empieza por el prefijo del pais" type="text" name="telefono" value= usuario ?usuario.telefono : '')
                     div 
                         label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="fechaNacimiento") Fecha de Nacimiento
                         input#nombre.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="fechaNacimiento" type="date" name="fechaNacimiento" value= usuario ?usuario.fechaNacimiento : '')    
@@ -48,7 +47,11 @@ block contenido
                     div 
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="repetir_password") confirmar password
                         input#repetir_password.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="*******" type="password" name="repetir_password")
-
+                        
+                        <br>
+                        
+                        git.g-recaptcha(data-sitekey="6LcbHHIqAAAAAO_keLm4HZlF9QfrIZ_arJVbMQLb")
+                   
                     input(class="w-full bg-indigo-600 mt-5 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
                     div.flex.items-center.justify-between
                         a(href="/auth/login").text-gray-400.text-xs.mt-2 ¿Ya tienes una cuenta? Inicia Sesión

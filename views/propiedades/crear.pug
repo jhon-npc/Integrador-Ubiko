@@ -36,46 +36,58 @@ block contenido
                             each categoria in categorias
                                 option(value=categoria.id selected= datos.categoria ? datos.categoria == categoria.id ? true : false : null )= categoria.nombre
 
-                    div(class="md:w-1/2")
+                    div(class="md:w-1/2") 
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="precio") precio
-                        select#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="precio")
-                            option(value="") - Seleccione -
-                            each precio in precios 
-                                option(value=precio.id selected= datos.precio ? datos.precio == precio.id ? true : false : null )= precio.nombre
+                        textarea#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Indique el precio"  name="precio")= datos.precio ? datos.precio : ''
+
 
                 div(class=" md:flex md:gap-4 space-y-8 md:space-y-0")
                     div(class="md:w-1/3")
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="habitaciones") habitaciones
                         select#habitaciones.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="habitaciones")
                             option(value="") - Seleccione -
-                            - var n = 1;
-                                while n < 5
+                            - var n = 0;
+                                while n < 6
                                     option( value=n selected= datos.habitaciones ? datos.habitaciones == n ? true : false : null) #{n++}
                     div(class="md:w-1/3")
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="estacionamiento") Estacionamiento
                         select#estacionamiento.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="estacionamiento")
                             option(value="") - Seleccione -
-                            - var n = 1;
-                                while n < 5
+                            - var n = 0;
+                                while n < 6
                                     option( value=n selected= datos.estacionamiento ? datos.estacionamiento == n ? true : false : null) #{n++}
 
                     div(class="md:w-1/3")
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="wc") baños
                         select#wc.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="wc")
                             option(value="") - Seleccione -
-                            - var n = 1;
-                                while n < 5
+                            - var n = 0;
+                                while n < 6
                                     option( value=n selected= datos.wc ? datos.wc == n ? true : false : null) #{n++}
 
-                div(class=" md:flex md:gap-4 space-y-8 md:space-y-0")
-                    label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="ciudad") Ciudad
-                    select#ciudad.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="ciudad")
-                        option(value="") - Seleccione -
-                        each ciudad in ciudades
-                            option(value=ciudad.id selected= datos.ciudad ? datos.ciudad == ciudad.id ? true : false : null )= ciudad.nombre
-                
-                
-                
+                div(class="md:flex md:gap-4 space-y-8 md:space-y-0")
+                    //- Selector de Departamento
+                    div(class="md:w-1/3")
+                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="departamento") Departamento
+                        select#departamento.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="departamento" onchange="actualizarProvincias()")
+                            option(value="") - Seleccione -
+                            each departamento in departamentos
+                                option(value=departamento.id selected= datos.departamento ? datos.departamento == departamento.id ? true : false : null )= departamento.nombre
+
+                    //- Selector de Provincia
+                    div(class="md:w-1/3")
+                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="provincia") Provincia
+                        select#provincia.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="provincia" onchange="actualizarCiudades()" ) 
+                            option(value="") - Seleccione -
+
+
+                    //- Selector de Ciudad
+                    div(class="md:w-1/3")
+                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="ciudad") Ciudad
+                        select#ciudad.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="ciudad")
+                            option(value="") - Seleccione -
+
+
                 div.border-gray-200.border-t.py-5
                     h3.text-lg.leading-6.font-medium.text-gray-900.font-bold Ubicación
                     br
@@ -95,6 +107,9 @@ block scripts
     script(src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geosearch/2.7.0/bundle.min.js")
     script(src="/js/mapa.js")
+    script(src="/js/ubiProv.js") 
+    script(src="/js/ubiCiud.js") 
+
 block pie 
     div 
         h2(class="text-center text-sm text-gray-400 py-2") &copy; TODOS LOS DERECHOS RESERVADOS #{new Date().getFullYear()}  | by Ubiko &hearts;

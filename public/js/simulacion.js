@@ -51,6 +51,7 @@ function generarCronograma(montoCapital, TEM, plazoMeses, pagoMensual) {
 
   return cronograma;
 }
+
 function actualizarResultados() {
   const montoInmueble = document.getElementById('montoInmueble').value;
   const cuotaInicialPorcentaje = document.getElementById('cuotaInicialPorcentaje').value;
@@ -72,10 +73,10 @@ function mostrarCronograma(cronograma) {
   tabla.innerHTML = `
       <tr>
           <th>Mes</th>
-          <th>Cuota Mensual</th>
-          <th>Interés Mensual</th>
           <th>Aporte Capital</th>
-          <th>Saldo</th>
+          <th>Interés Mensual</th>
+          <th>Cuota Mensual</th>          
+          <th>Saldo Capital</th>
       </tr>
   `;
 
@@ -83,14 +84,15 @@ function mostrarCronograma(cronograma) {
       const fila = document.createElement('tr');
       fila.innerHTML = `
           <td>${pago.mes}</td>
-          <td>S/ ${pago.pagoMensual}</td>
-          <td>S/ ${pago.interes}</td>
           <td>S/ ${pago.aporteC}</td>
+          <td>S/ ${pago.interes}</td>
+          <td>S/ ${pago.pagoMensual}</td>
           <td>S/ ${pago.saldo}</td>
       `;
       tabla.appendChild(fila);
   });
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('simulationForm');
@@ -102,3 +104,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
   actualizarResultados(); // Actualizar resultados iniciales
 });
+
+function actualizarPrecio() {
+  const selectPropiedad = document.getElementById('propiedad');
+  const precio = selectPropiedad.options[selectPropiedad.selectedIndex].propiedad.precio;
+
+  // Actualiza el campo de monto del inmueble con el precio seleccionado
+  const montoInmuebleInput = document.getElementById('montoInmueble');
+  montoInmuebleInput.value = precio ? parseFloat(precio).toFixed(2) : '';
+  
+  // Llama a actualizarResultados para recalcular los resultados con el nuevo monto
+  actualizarResultados();
+}
+
+function mostrarPrecio() {
+  const select = document.getElementById('propiedad');
+  const precioInput = document.getElementById('montoInmueble');
+  const precioSeleccionado = select.options[select.selectedIndex].getAttribute('data-precio');
+  precioInput.value = precioSeleccionado ? `${(precioSeleccionado).toLocaleString()}` : '';
+}
+
+
+//-----------------------------------------------------
+function generarPDFCronograma() {
+  const { jsPDF } = window.jspdf;
+  const tabla = document.getElementById('tablaCronograma');
+
+  html2canvas(tabla).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('cronograma.pdf');
+  });
+}
+
+function imprimirCronograma() {
+  const tabla = document.getElementById('tablaCronograma');
+  const contenido = tabla.outerHTML;
+
+  const ventanaImpresion = window.open('', '_blank', 'height=600,width=800');
+  ventanaImpresion.document.open();
+  ventanaImpresion.document.write('<html><head><title>Cronograma de Pagos</title></head><body>');
+  ventanaImpresion.document.write('<h1>Cronograma de Pagos</h1>');
+  ventanaImpresion.document.write(contenido);
+  ventanaImpresion.document.write('</body></html>');
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+  ventanaImpresion.close();
+}
+
+
+
