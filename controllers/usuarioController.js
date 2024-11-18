@@ -44,7 +44,24 @@ const autenticar = async (req, res) => {
     .withMessage("El Password es Obligatorio")
     .run(req);
 
+  const recaptchaToken = req.body["g-recaptcha-response"];
+  const secretKey = "6LcbHHIqAAAAAGxNKJq7S_zdQAUJWQEjgsRR5S5r";
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
+
   let resultado = validationResult(req);
+  let isHuman = false;
+
+  try {
+    const response = await axios.post(verificationURL);
+    isHuman = response.data.success;
+  } catch (error) {
+    console.error("Error al verificar el reCAPTCHA:", error);
+  }
+
+  // Agregar mensaje si no es humano
+  if (!isHuman) {
+    resultado.errors.push({ msg: "Por favor, confirma que no eres un robot" });
+  }
 
   //return res.json(resultado.array())
   // Verificar que el resultado este vacío
@@ -85,37 +102,13 @@ const autenticar = async (req, res) => {
     });
   }
 
-  const recaptchaToken = req.body["g-recaptcha-response"];
-  const secretKey = "6LcbHHIqAAAAAGxNKJq7S_zdQAUJWQEjgsRR5S5r";
-  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
-
-  try {
-    const response = await axios.post(verificationURL);
-    const isHuman = response.data.success;
-
-    if (!isHuman) {
-      return res.status(400).send("Por favor, confirma que no eres un robot.");
-    }
-
     // AUTENTICAR EL PASSWORD
     const token = generarJWT({ id: usuario.id, nombre: usuario.nombre });
-    /*   console.log(token) */
-    // Almacenar en un cookie
-    // Aqui redireccionamos a la pagina principal
-
-    if (isHuman) {
-      return res
-        .cookie("_token", token, {
-          httpOnly: true,
-          //secure: true
-        })
+    return res
+      .cookie("_token", token, {
+        httpOnly: true,
+      })
         .redirect("/mis-propiedades"); //redireccion
-    }
-  } catch (error) {
-    console.error("Error al verificar el reCAPTCHA:", error);
-    res.status(500).send("Ocurrió un problema al procesar el formulario.");
-  }
-  //puedo redireccionar al usuario directo a 'mis-propiedades'
 };
 /*const formularioRegistro = (req, res) => {
     res.render('auth/registro', {
@@ -152,13 +145,13 @@ const registro = async (req, res) => {
 
 const registrar = async (req, res) => {
   // valdiacion
-  await check("nombre").notEmpty().withMessage("Campo vacío").run(req);
+  await check("nombre").notEmpty().withMessage("Campo vacío de nombre").run(req);
 
-  await check("apellido").notEmpty().withMessage("Campo vacío").run(req);
+  await check("apellido").notEmpty().withMessage("Campo vacío de apellido").run(req);
 
   await check("telefono")
     .notEmpty()
-    .withMessage("Campo vacío")
+    .withMessage("Campo vacío de teléfono")
     .isNumeric()
     .withMessage("Solo numeros")
     .run(req);
@@ -217,8 +210,24 @@ const registrar = async (req, res) => {
     .withMessage("El Password no coinciden")
     .run(req);
 
+  const recaptchaToken = req.body["g-recaptcha-response"];
+  const secretKey = "6LcbHHIqAAAAAGxNKJq7S_zdQAUJWQEjgsRR5S5r";
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
   //console.log(req.body)
   let resultado = validationResult(req);
+  let isHuman = false;
+
+  try {
+    const response = await axios.post(verificationURL);
+    isHuman = response.data.success;
+  } catch (error) {
+    console.error("Error al verificar el reCAPTCHA:", error);
+  }
+
+  if (!isHuman) {
+    resultado.errors.push({ msg: "Por favor, confirma que no eres un robot" });
+  }
+
   //return res.json(resultado.array())
   // Verificar que el resultado este vacío
   if (!resultado.isEmpty()) {
@@ -282,32 +291,11 @@ const registrar = async (req, res) => {
     token: usuario.token,
   });
 
-  const recaptchaToken = req.body["g-recaptcha-response"];
-  const secretKey = "6LcbHHIqAAAAAGxNKJq7S_zdQAUJWQEjgsRR5S5r";
-  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
+  res.render("templates/mensaje", {
+    pagina: "Cuenta Creada Correctamente",
+    mensaje: "Hemos enviado un Email de Confirmación, revisa tu correo.",
+  });
 
-  try {
-    const response = await axios.post(verificationURL);
-    const isHuman = response.data.success;
-
-    if (!isHuman) {
-      return res.status(400).send("Por favor, confirma que no eres un robot.");
-    }
-    /*   console.log(token) */
-    // Almacenar en un cookie
-    // Aqui redireccionamos a la pagina principal
-
-    if (isHuman) {
-      //Mostrar un mensaje de condfirmacion
-      res.render("templates/mensaje", {
-        pagina: "Cuenta Creada Correctamente",
-        mensaje: "Hemos Enviado un Email de Confirmación, revisa tu correo",
-      });
-    }
-  } catch (error) {
-    console.error("Error al verificar el reCAPTCHA:", error);
-    res.status(500).send("Ocurrió un problema al procesar el formulario.");
-  }
 };
 //Funcion que comprueba una cuenta
 const comprobar = async (req, res) => {

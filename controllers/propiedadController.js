@@ -1,5 +1,5 @@
 import { unlink } from "node:fs/promises";
-import { validationResult } from "express-validator";
+import { body, validationResult } from 'express-validator';
 import {
   Categoria,
   Propiedad,
@@ -86,16 +86,16 @@ const crear = async (req, res) => {
   });
 };
 const guardar = async (req, res) => {
-  //Valdiacion
+  //Validación
   let resultado = validationResult(req);
   console.log("guardando ", resultado);
 
   if (!resultado.isEmpty()) {
-    //Consultar el modelo de precios y categorias
-    const [categorias, ciudades] = await Promise.all([
+    const [categorias, departamentos, provincias, ciudades] = await Promise.all([
       Categoria.findAll(),
+      Departamento.findAll(),
+      Provincia.findAll(),
       Ciudad.findAll(),
-      //Precio.findAll(),
     ]);
 
     return res.render("propiedades/crear", {
@@ -103,8 +103,9 @@ const guardar = async (req, res) => {
       barra: true,
       csrfToken: req.csrfToken(),
       categorias,
+      departamentos,
+      provincias,
       ciudades,
-      //precios,
       errores: resultado.array(),
       datos: req.body,
     });
