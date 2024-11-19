@@ -22,7 +22,8 @@ router.post('/propiedades/crear', protegerRuta,
     body('descripcion').notEmpty().withMessage('La descripcion no puede ir vacía')
     .isLength({max:150}).withMessage('La descripción es muy larga, max 150 caracteres'),
     body('categoria').isNumeric().withMessage('Selecciona una categoria'),
-    body('precio').notEmpty().withMessage('Indique un precio'),
+    body('precio').notEmpty().withMessage('Indique un precio')
+        .isNumeric().withMessage('El precio debe ser un valor numérico'),
     body('habitaciones').isNumeric().withMessage('Selecciona la cantidad de habitaciones'),
     body('estacionamiento').isNumeric().withMessage('Selecciona la cantidad de estacionamientos'),
     body('wc').isNumeric().withMessage('Selecciona la cantidad de baños'),
@@ -45,7 +46,8 @@ router.post('/propiedades/editar/:id', protegerRuta,
     body('descripcion').notEmpty().withMessage('La descripcion no puede ir vacía')
     .isLength({max:150}).withMessage('La descripción es muy larga, max 150 caracteres'),
     body('categoria').isNumeric().withMessage('Selecciona una categoria'),
-    body('precio').notEmpty().withMessage('Selecciona un precios'),
+    body('precio').notEmpty().withMessage('Indique un precio')
+        .isNumeric().withMessage('El precio debe ser un valor numérico'),
     body('habitaciones').isNumeric().withMessage('Selecciona la cantidad de habitaciones'),
     body('estacionamiento').isNumeric().withMessage('Selecciona la cantidad de estacionamientos'),
     body('wc').isNumeric().withMessage('Selecciona la cantidad de baños'),
@@ -64,9 +66,12 @@ router.get('/propiedad/:id', usuarioAutenticado, mostrarPropiedad)
 // Almacenar los mensajes
 router.post('/propiedad/:id',
     usuarioAutenticado,
-    body('mensaje').isLength({min: 20}).withMessage('El Mensaje no puede ir vacío o es muy corto'),
+    body('mensaje')
+        .trim()
+        .notEmpty().withMessage('El mensaje no puede estar vacío')
+        .isLength({min: 20}).withMessage('El mensaje debe tener al menos 20 caracteres'),
     enviarMensaje
-)
+);
 router.get('/mensajes/:id', protegerRuta, verMensajes)
 
 

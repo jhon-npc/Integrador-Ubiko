@@ -401,7 +401,7 @@ const enviarMensaje = async (req, res) => {
   const propiedad = await Propiedad.findByPk(id, {
     include: [
       { model: Categoria, as: "categoria" },
-      //{model: Usuario, as: 'usuario'},
+      {model: Usuario, as: 'usuario', attributes: ["nombre", "email"]},
     ],
   });
   if (!propiedad) {
@@ -431,7 +431,7 @@ const enviarMensaje = async (req, res) => {
   // Almacenar el mensaje
   await Mensaje.create({
     mensaje,
-    propiedadId,
+    propiedadId: propiedad.id,
     usuarioId,
   });
 
