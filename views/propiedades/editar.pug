@@ -36,7 +36,7 @@ block contenido
                             each categoria in categorias
                                 option(value=categoria.id selected= datos.categoriaId ? datos.categoriaId == categoria.id ? true : false : null )= categoria.nombre
 
-                    div 
+                    div(class="md:w-1/2")  
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="precio") Precio
                         textarea#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Precio"  name="precio")= datos.precio ? datos.precio : ''
 
@@ -62,7 +62,7 @@ block contenido
                             option(value="") - Seleccione -
                             - var n = 0;
                                 while n < 6
-                                    option( value=n selected= datos.wc ? datos.wc == n ? true : false : null) #{n++}
+                                    option( value=n selected= datos.wc ? datos.wc == n ? true : false : null) #{n++} 
 
                 div.border-gray-200.border-t.py-5
                     h3.text-lg.leading-6.font-medium.text-gray-900.font-bold Ubicación
