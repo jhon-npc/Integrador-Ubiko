@@ -155,7 +155,9 @@ function imprimirCronograma() {
   ventanaImpresion.document.close();
   ventanaImpresion.focus();
   ventanaImpresion.print();
-  ventanaImpresion.close();
+  setTimeout(function() {
+    ventanaImpresion.close();
+  }, 1000);
 }
 
 
