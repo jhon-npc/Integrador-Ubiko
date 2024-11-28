@@ -1,0 +1,146 @@
+.simulacion {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px auto;
+  max-width: 1200px;
+  gap: 20px;
+}
+
+.simulacion .form-section,
+.simulacion .results-section {
+  width: 48%;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.simulacion h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.simulacion label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.simulacion input,
+.simulacion select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.simulacion button,
+.simulacion input[type="submit"],
+.simulacion input[type="button"] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.simulacion button:hover,
+.simulacion input[type="submit"]:hover,
+.simulacion input[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+.simulacion .results-section p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.simulacion .results-section span {
+  font-weight: bold;
+}
+
+.simulacion table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.simulacion table th,
+.simulacion table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.simulacion table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 1024px) {
+  .simulacion {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .simulacion .form-section,
+  .simulacion .results-section {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .simulacion h2 {
+    font-size: 20px;
+  }
+
+  .simulacion input,
+  .simulacion select {
+    padding: 8px;
+  }
+
+  .simulacion button,
+  .simulacion input[type="submit"],
+  .simulacion input[type="button"] {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .simulacion table th,
+  .simulacion table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .simulacion h2 {
+    font-size: 18px;
+  }
+
+  .simulacion input,
+  .simulacion select {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .simulacion button,
+  .simulacion input[type="submit"],
+  .simulacion input[type="button"] {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .simulacion table th,
+  .simulacion table td {
+    padding: 6px;
+    font-size: 12px;
+  }
+}
