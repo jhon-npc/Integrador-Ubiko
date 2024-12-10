@@ -4,7 +4,9 @@ nav(class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b bo
       img.h-8(src="/img/header-icon.png" alt="Loguito admin")
       span(class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white") Ubiko
     .flex(class="md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse")
-      p( class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-2") Bienvenido
+      p( class="text-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2 text-center") Bienvenido:
+      p( class="text-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2 text-center")= nombresUsuarios
+ 
 
       form(action="/auth/cerrar-sesion" method="POST")
                 input(type="hidden" name="_csrf" value=csrfToken)

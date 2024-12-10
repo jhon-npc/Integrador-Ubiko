@@ -23,20 +23,19 @@ const admin = async (req, res) => {
 
   try {
     const { id } = req.usuario;
-    //Limites y Offset para el paginador
+    // Límites y Offset para el paginador
     const limite = 5;
     const offset = paginaActual * limite - limite;
 
     const [propiedades, total] = await Promise.all([
       await Propiedad.findAll({
-        limite: limite,
+        limit: limite, // Cambiado a "limit" (en lugar de "limite") para Sequelize
         offset,
         where: { usuarioId: id },
         include: [
           { model: Categoria, as: "categoria" },
-          //{ model: Precio, as: "precio" },
           { model: Mensaje, as: "mensajes" },
-          { model: Usuario, as: "usuario" },
+          { model: Usuario, as: "usuario" }, // Incluimos el modelo Usuario
         ],
       }),
       Propiedad.count({
@@ -46,10 +45,16 @@ const admin = async (req, res) => {
       }),
     ]);
 
+    // Extraer nombres de usuarios
+    const nombresUsuarios = propiedades.map(
+      (propiedad) => propiedad.usuario?.nombre || "Nombre no disponible"
+    );
+
     res.render("propiedades/admin", {
       pagina: "Mis Propiedades",
       barra: true,
       propiedades,
+      nombresUsuarios, // Pasamos los nombres de los usuarios a la vista
       csrfToken: req.csrfToken(),
       paginas: Math.ceil(total / limite),
       paginaActual: Number(paginaActual),
@@ -62,29 +67,49 @@ const admin = async (req, res) => {
   }
 };
 
-//Formulario sobre crear una propiedad
+//Formulario para crear una propiedad
 const crear = async (req, res) => {
-  //Consulta el Modelo de Precio y Categoria
-  const [categorias, departamentos,provincias,ciudades] = await Promise.all([
-    Categoria.findAll(),
-    Departamento.findAll(),
-    Provincia.findAll(),
-    Ciudad.findAll(),
-    //Precio.findAll(),
-  ]);
+  try {
+    const { id } = req.usuario; // Verifica que tienes el id del usuario actual
 
-  res.render("propiedades/crear", {
-    pagina: "Crear Propiedad",
-    barra: true,
-    csrfToken: req.csrfToken(),
-    categorias,
-    departamentos,
-    provincias,
-    ciudades,
-    //precios,
-    datos: {},
-  });
+    const [categorias, departamentos, provincias, ciudades] = await Promise.all([
+      Categoria.findAll(),
+      Departamento.findAll(),
+      Provincia.findAll(),
+      Ciudad.findAll(),
+    ]);
+
+    const propiedades = await Propiedad.findAll({
+      where: { usuarioId: id },
+      include: [
+        { model: Categoria, as: "categoria" },
+        { model: Mensaje, as: "mensajes" },
+        { model: Usuario, as: "usuario" },
+      ],
+    });
+
+    // Extraer nombres de usuarios
+    const nombresUsuarios = propiedades.map(
+      (propiedad) => propiedad.usuario?.nombre || "Nombre no disponible"
+    );
+
+    res.render("propiedades/crear", {
+      pagina: "Crear Propiedad",
+      barra: true,
+      csrfToken: req.csrfToken(),
+      nombresUsuarios, // Pasamos los nombres a la vista
+      categorias,
+      departamentos,
+      provincias,
+      ciudades,
+      datos: {}, // Datos iniciales para el formulario
+    });
+  } catch (error) {
+    console.error("Error al cargar el formulario de creación de propiedad:", error);
+    res.status(500).send("Hubo un error al cargar la página.");
+  }
 };
+
 const guardar = async (req, res) => {
   //Validación
   let resultado = validationResult(req);
@@ -169,10 +194,25 @@ const agregarImagen = async (req, res) => {
     return res.redirect("/mis-propiedades");
   }
 
+  const propiedades = await Propiedad.findAll({
+    where: { usuarioId: id },
+    include: [
+      { model: Categoria, as: "categoria" },
+      { model: Mensaje, as: "mensajes" },
+      { model: Usuario, as: "usuario" },
+    ],
+  });
+
+  // Extraer nombres de usuarios
+  const nombresUsuarios = propiedades.map(
+    (propiedad) => propiedad.usuario?.nombre || "Nombre no disponible"
+  );
+
   res.render("propiedades/agregar-imagen", {
     pagina: `Agregar Imagen: ${propiedad.titulo}`,
     csrfToken: req.csrfToken(),
     propiedad,
+    nombresUsuarios
   });
 };
 
@@ -211,37 +251,55 @@ const almacenarImagen = async (req, res, next) => {
 const editar = async (req, res) => {
   const { id } = req.params;
 
-  //validar que la propieda exista
-  const propiedad = await Propiedad.findByPk(id);
-  const usuario = await Usuario.findByPk(req.usuario.id);
-  console.log('====================================');
-  console.log(usuario);
-  console.log('====================================');
+  try {
+    // Validar que la propiedad exista
+    const propiedad = await Propiedad.findByPk(id);
+    if (!propiedad) {
+      return res.redirect("/mis-propiedades");
+    }
 
-  if (!propiedad) {
-    return res.redirect("/mis-propiedades");
+    // Validar que quien visita la URL es el creador de la propiedad
+    if (propiedad.usuarioId.toString() !== req.usuario.id.toString()) {
+      return res.redirect("/mis-propiedades");
+    }
+
+    // Consultar categorías y ciudades
+    const [categorias, ciudades] = await Promise.all([
+      Categoria.findAll(),
+      Ciudad.findAll(),
+    ]);
+
+    // Obtener todas las propiedades del usuario y extraer nombres
+    const propiedades = await Propiedad.findAll({
+      where: { usuarioId: req.usuario.id },
+      include: [
+        { model: Categoria, as: "categoria" },
+        { model: Mensaje, as: "mensajes" },
+        { model: Usuario, as: "usuario" },
+      ],
+    });
+
+    const nombresUsuarios = propiedades.map(
+      (propiedad) => propiedad.usuario?.nombre || "Nombre no disponible"
+    );
+
+    // Renderizar la vista con los datos
+    res.render("propiedades/editar", {
+      pagina: `Editar Propiedad: ${propiedad.titulo}`,
+      barra: true,
+      csrfToken: req.csrfToken(),
+      nombresUsuarios,
+      nombresUsuarios: req.usuario.nombre, // Pasar nombre del usuario actual
+      categorias,
+      ciudades,
+      datos: propiedad,
+    });
+  } catch (error) {
+    console.error("Error al editar la propiedad:", error);
+    res.status(500).send("Hubo un error al cargar la página de edición.");
   }
-
-  // Revisar que quien vista la url es quien creo la propiedad
-  if (propiedad.usuarioId.toString() !== req.usuario.id.toString()) {
-    return res.redirect("/mis-propiedades");
-  }
-  //Consulta el Modelo de Precio y Categoria
-  const [categorias, ciudades] = await Promise.all([
-    Categoria.findAll(),
-    Ciudad.findAll(),
-  ]);
-
-  res.render("propiedades/editar", {
-    pagina: ` Editar Propiedad: ${propiedad.titulo} `,
-    barra: true,
-    csrfToken: req.csrfToken(),
-    categorias,
-    ciudades,
-    usuario: req.usuario,
-    datos: propiedad,
-  });
 };
+
 const guardarCambios = async (req, res) => {
   //verificar la validacion
   let resultado = validationResult(req);
