@@ -1,62 +1,85 @@
 extends ../layout/index
 
 block contenido
-    .py-0 
-        h1.text-4xl.my-5.font-extrabold.text-center Ubiko
+    div(class="flex justify-between items-center")
+                a(href="/" class="text-4xl my-5 font-extrabold text-blue-700") Ubiko
+                a(href="/" class="text-sm.my-5 font-extrabold text-gray-100") volver al inicio
+                
+    .py-0
         h2.text-center.text-2xl.font-extrabold.text-indigo-600= pagina
 
         if errores
             div(class="max-w-md mx-auto my-10")
                 each error in errores
-                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
+                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-semibold= error.msg
 
         .mt-8.mx-auto.max-w-md
-            .bg-white.py-8.px-4.shadow
-                form(action="/auth/registro" method="POST" novalidate) 
+            .bg-white.p-8.shadow-xl.rounded-lg
+                form(action="/auth/registro" method="POST" novalidate)
                     input(type="hidden" name="_csrf" value=csrfToken)
-                    div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="nombre") Tu Nombre
-                        input#nombre.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Name" type="text" name="nombre" value= usuario ?usuario.nombre : '')
-                    div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="apellido") Tu Apellido
-                        input#nombre.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Surname" type="text" name="apellido" value= usuario ?usuario.apellido : '')
-                    div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="telefono") Telefono
-                        input#telefono.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="+519********" type="text" name="telefono" value= usuario ?usuario.telefono : '')
-                    div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="fechaNacimiento") Fecha de Nacimiento
-                        input#nombre.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="fechaNacimiento" type="date" name="fechaNacimiento" value= usuario ?usuario.fechaNacimiento : '')    
-                    div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="email") Gmail
-                        input#email.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="you@example.com" type="email" name="email" value= usuario ?usuario.email : '')
-                    
+
+                    // Nombre
                     div
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="documento") Documento de Identidad
-                        select#documento.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(name="documento")
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="nombre") Tu Nombre
+                        input#nombre.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(placeholder="Nombre" type="text" name="nombre" value=usuario ? usuario.nombre : '')
+
+                    // Apellido
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="apellido") Tu Apellido
+                        input#apellido.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(placeholder="Apellido" type="text" name="apellido" value=usuario ? usuario.apellido : '')
+
+                    // Teléfono
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="telefono") Teléfono
+                        input#telefono.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(placeholder="+519********" type="text" name="telefono" value=usuario ? usuario.telefono : '')
+
+                    // Fecha de Nacimiento
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="fechaNacimiento") Fecha de Nacimiento
+                        input#fechaNacimiento.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(placeholder="Fecha de nacimiento" type="date" name="fechaNacimiento" value=usuario ? usuario.fechaNacimiento : '')
+
+                    // Email
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="email") Gmail
+                        input#email.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(placeholder="you@example.com" type="email" name="email" value=usuario ? usuario.email : '')
+
+                    // Documento de Identidad
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="documento") Documento de Identidad
+                        select#documento.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(name="documento")
                             option(value="") - Seleccione -
-                            each documento in documentos 
-                                option(value=documento.id selected= datos.documento ? datos.documento == documento.id ? true : false : null )= documento.nombre
-                    
-                    div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="identificacion") Identificacion
-                        input#nombre.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Numero" type="text" name="identificacion" value= usuario ?usuario.identificacion : '')
-                    
-                    div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="password") password
-                        input#password.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="*******" type="password" name="password")
-                    div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="repetir_password") confirmar password
-                        input#repetir_password.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="*******" type="password" name="repetir_password")
-                        
-                        <br>
-                        
-                        git.g-recaptcha(data-sitekey="6LcbHHIqAAAAAO_keLm4HZlF9QfrIZ_arJVbMQLb")
-                   
-                    input(class="w-full bg-indigo-600 mt-5 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
-                    div.flex.items-center.justify-between
+                            each documento in documentos
+                                option(value=documento.id selected=datos.documento ? datos.documento == documento.id ? true : false : null)= documento.nombre
+
+                    // Identificación
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="identificacion") Identificación
+                        input#identificacion.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(placeholder="Número de identificación" type="text" name="identificacion" value=usuario ? usuario.identificacion : '')
+
+                    // Contraseña
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="password") Contraseña
+                        input#password.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(placeholder="*******" type="password" name="password")
+
+                    // Confirmar Contraseña
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-semibold(for="repetir_password") Confirmar Contraseña
+                        input#repetir_password.w-full.px-4.py-3.border.border-indigo-500.rounded-lg.text-gray-900.placeholder-gray-400(placeholder="*******" type="password" name="repetir_password")
+
+                    br
+                    // reCAPTCHA
+                    div
+                        .g-recaptcha(data-sitekey="6LcbHHIqAAAAAO_keLm4HZlF9QfrIZ_arJVbMQLb")
+
+                    // Botón de Enviar
+                    input(class="w-full bg-indigo-600 mt-5 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg cursor-pointer" type="submit" value="Crear Cuenta")
+
+                    // Links de inicio de sesión y recuperación de contraseña
+                    div(class="flex items-center justify-between mt-4")
                         a(href="/auth/login").text-gray-400.text-xs.mt-2 ¿Ya tienes una cuenta? Inicia Sesión
-                        a(href="/auth/restaurar-password").text-gray-400.text-xs.mt-2 Olvide mi password
-block pie 
-    div 
+                        a(href="/auth/restaurar-password").text-gray-400.text-xs.mt-2 Olvidé mi contraseña
+
+block pie
+    div
         h2(class="text-center text-sm text-gray-400 py-2") &copy; TODOS LOS DERECHOS RESERVADOS #{new Date().getFullYear()} | by Ubiko &hearts;
     script(src="/js/prefijo.js")

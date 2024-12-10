@@ -5,8 +5,11 @@ block styles
 
 block contenido
     .py-10
+        br
+        br
+        br
         
-        h2.text-center.text-2xl.font-extrabold.text-indigo-600= pagina
+        h2.text-center.text-2xl.font-medium.text-indigo-600= pagina
 
         if errores
             div(class="max-w-md mx-auto my-10")
@@ -38,7 +41,7 @@ block contenido
 
                     div(class="md:w-1/2") 
                         label.block.text-sm.uppercase.text-gray-500.mb-2.mt-2.font-bold(for="precio") precio
-                        textarea#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Indique el precio"  name="precio")= datos.precio ? datos.precio : ''
+                        input#precio.w-full.px-3.py-2.border.border-indigo-500.rounded-xl.placeholder-gray-400(placeholder="Indique el precio" name="precio" type="number" min="0" value=datos.precio ? datos.precio : '')
 
 
                 div(class=" md:flex md:gap-4 space-y-8 md:space-y-0")

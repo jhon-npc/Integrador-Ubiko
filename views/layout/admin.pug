@@ -6,7 +6,8 @@ html(lang="en")
         title Ubiko | #{pagina}
         block styles
         link(rel="stylesheet", href="/css/app.css")
-        link(rel="shortcut icon", href="/img/logobr.ico", type="image/x-icon")
+        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
+        link(rel="shortcut icon", href="/img/header-icon.png", type="image/x-icon")
         link(rel='stylesheet', href='/css/all.min.css')
         script(src="https://www.google.com/recaptcha/api.js" async defer)
     body.min-h-screen.bg-gray-50
@@ -16,6 +17,9 @@ html(lang="en")
         main(class="mx-auto container p-15")
             block contenido
             
+        script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
+        script(src="/alertsweet.js")
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
         block scripts
         
     footer
